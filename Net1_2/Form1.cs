@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Text;
 
 namespace Net1_2
 {
@@ -22,10 +21,12 @@ namespace Net1_2
             InitList();
             InitPoolThread();
             MessageHandle = SaveToLog;
+            updateListView = updateClientList;
         }
         private Socket serverSocket = null;
         public delegate void dSaveToLog(string msg);
         public dSaveToLog MessageHandle;
+        public Action updateListView;
         private List<ClientParam> Clients = new List<ClientParam>();
         private void InitPoolThread()
         {
@@ -63,6 +64,7 @@ namespace Net1_2
         }
         private void InitSocket()
         {
+
             int port;
             if (!int.TryParse(textBoxPort.Text, out port) || port <=0 || port>65535)
             {
@@ -84,7 +86,7 @@ namespace Net1_2
             serverSocket.Bind(new IPEndPoint(ip, port));
             serverSocket.Listen(100);
 
-            //ThreadPool.QueueUserWorkItem();
+            ThreadPool.QueueUserWorkItem(ServerProc, this);
             buttonStart.Text = "Stop";
         }
 
@@ -112,7 +114,7 @@ namespace Net1_2
                     };
                     string message = $"Client {client.RemoteEndPoint} is connected";
                     form.Invoke(MessageHandle, message);
-                    //ThreadPool.QueueUserWorkItem(ClientProc, param);
+                    ThreadPool.QueueUserWorkItem(ClientProc, param);
                 }
                 catch (Exception ex)
                 {
@@ -141,6 +143,7 @@ namespace Net1_2
                 {
                     Clients.Add(par);
                 }
+                par.form.Invoke(updateListView);
                 //3 comands
                 while (true)
                 {
@@ -159,9 +162,13 @@ namespace Net1_2
                             break;
                         case "SendMessageAll":
                             SendMessageAll(par, buffer);
+                            par.messageCount++;
+                            par.form.Invoke(updateListView);
                             break;
                         case "SendMessageTo":
                             SendMessageTo(par, buffer);
+                            par.messageCount++;
+                            par.form.Invoke(updateListView);
                             break;
                         default:
                             message = $"Incorrect comand \'{command}\' from client {par.name}!";
@@ -169,8 +176,6 @@ namespace Net1_2
                             break;
                     }
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -186,9 +191,10 @@ namespace Net1_2
                 {
                     Clients.Remove(par);
                 }
+                par.form.Invoke(updateListView);
             }
         }
-        private void SendMessageTo(ClientParam par, byte[]buffer)
+        private void SendMessageTo(ClientParam par, byte[] buffer)
         {
             int size = par.client.Receive(buffer);
             string to = Encoding.UTF8.GetString(buffer, 0, size);
@@ -198,7 +204,7 @@ namespace Net1_2
             {
                 if (Clients[i].name == to && Clients[i].client.Connected)
                 {
-                    Clients[i].client.Send(buffer,0,size2, SocketFlags.None);
+                    Clients[i].client.Send(buffer, 0, size2, SocketFlags.None);
                     res = "OK";
                 }
             }
@@ -215,7 +221,7 @@ namespace Net1_2
             {
                 if (c.client.Connected)
                 {
-                    c.client.Send(buffer, 0, size,SocketFlags.None);
+                    c.client.Send(buffer, 0, size, SocketFlags.None);
                     cnt++;
                 }
             }
@@ -242,16 +248,38 @@ namespace Net1_2
         {
             textBoxLog.Text += msg+ "\r\n";
         }
+        public void updateClientList()
+        {
+            //Clients ==> listviewClients
+            listViewClients.BeginUpdate();
+            listViewClients.Items.Clear();
+            int id = 0;
+            lock (Clients)
+            {
+                foreach (ClientParam item in Clients)
+                {
+                    ListViewItem i = listViewClients.Items.Add(id.ToString());
+                    i.SubItems.Add(item.name);
+                    if(item.client != null && item.client.Connected)
+                    i.SubItems.Add(item.client.RemoteEndPoint.ToString());
+                    i.SubItems.Add(item.messageCount.ToString());
+                    id++;
+                }
+            }
+            listViewClients.EndUpdate();
+        }
         public struct ClientParam
         {
             public string name;
             public Socket client;
             public Form1 form;
-            public ClientParam(string name, Socket client, Form1 form)
+            public int messageCount;
+            public ClientParam(string name, Socket client, Form1 form, int messageCount)
             {
                 this.name = name;
                 this.client = client;
                 this.form = form;
+                this.messageCount = messageCount;
             }
         }
     }
