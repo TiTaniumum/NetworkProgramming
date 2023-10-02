@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net2", "Net2.csproj", "{141EF867-C7E3-4AC9-85CA-F98641F4D67F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdpServer", "..\UdpServer\UdpServer.csproj", "{B0E1FEA5-3A26-4F1B-BEC2-DB0C21397F6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UdpClient", "..\UdpClient\UdpClient.csproj", "{B0FEBBA6-9C3C-40F2-AB56-8A4971D0011F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{141EF867-C7E3-4AC9-85CA-F98641F4D67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{141EF867-C7E3-4AC9-85CA-F98641F4D67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{141EF867-C7E3-4AC9-85CA-F98641F4D67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{141EF867-C7E3-4AC9-85CA-F98641F4D67F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E1FEA5-3A26-4F1B-BEC2-DB0C21397F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E1FEA5-3A26-4F1B-BEC2-DB0C21397F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E1FEA5-3A26-4F1B-BEC2-DB0C21397F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E1FEA5-3A26-4F1B-BEC2-DB0C21397F6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0FEBBA6-9C3C-40F2-AB56-8A4971D0011F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0FEBBA6-9C3C-40F2-AB56-8A4971D0011F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0FEBBA6-9C3C-40F2-AB56-8A4971D0011F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0FEBBA6-9C3C-40F2-AB56-8A4971D0011F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

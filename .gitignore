@@ -17,3 +17,7 @@
 /XO-Net/.vs/XO
 /XO-Net/bin/Debug
 /XO-Net/obj
+/UdpClient/bin/Debug/net6.0
+/UdpClient/obj
+/UdpServer/bin/Debug/net6.0
+/UdpServer/obj
