@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 
 
-namespace UdpServer
+namespace NetUdpServer
 {
     internal class MainClass
     {
@@ -24,6 +24,30 @@ namespace UdpServer
             string msg = Encoding.UTF8.GetString(buffer, 0, size);
             Console.WriteLine($"Receive data size: \n{msg}");
             socket.Close();
+
+            UdpClient uClient = new UdpClient();
+            uClient.Client.Bind(localEP);
+            IPEndPoint IPremoteEP = remoteEP as IPEndPoint;
+            using (FileStream fs = File.OpenWrite("result.txt"))
+            {
+                int i = 0;
+                uClient.Client.ReceiveTimeout = 5000;
+                while (true)
+                {
+                    try
+                    {
+                        buffer = uClient.Receive(ref IPremoteEP);
+                    }
+                    catch (Exception) { break; }
+                    if (buffer == null || buffer.Length == 0) break;
+                    fs.Write(buffer, 0, buffer.Length);
+                    i++;
+                    Console.Write($"{i}: size = {buffer.Length}       \r");
+                }
+                Console.WriteLine();
+                Console.WriteLine($"Recieved {i} packets");
+            }
+            uClient.Close();
         }
     }
 }

@@ -21,21 +21,38 @@ namespace NetUdpClient
             Console.WriteLine("Send message to UDP-Server");
             Console.WriteLine($"Send size {size} bytes");
             socket.Close();
-            string fileName = "";
+
+            ////-- ---- --   - -- -- -- - - -
+
+            string fileName = @"C:\Users\elemanovt\source\repos\NetworkProgramming\UdpClient\file.txt";
             int blockSize = 1024;
             FileInfo file = new FileInfo(fileName);
             int cntSend = (int)(file.Length/blockSize);
             int remSend = (int)(file.Length%blockSize);
             UdpClient uClient = new UdpClient();
-            EndPoint srvEP = new IPEndPoint(server, port);
-            char[] buf = new char[blockSize];
+            IPEndPoint srvEP = new IPEndPoint(server, port);
+            byte[] buf = new byte[blockSize];
             int startIndex = 0;
-            Convert.ToByte();
-            using (StreamReader sr = new StreamReader(fileName))
+            using (FileStream fs = File.OpenRead(fileName))
             {
-                sr.ReadBlock(buf,startIndex, blockSize);
-                uClient.Send();
+                for (int i = 0; i < cntSend; i++)
+                {
+                    fs.Read(buf, 0, blockSize);
+                    uClient.Send(buf, blockSize, srvEP);
+                    startIndex+=blockSize;
+                    float proc = (float)i/(float)cntSend *100;                   
+                    Console.Write($"{i}/{cntSend} = {proc:f1}%             \r");
+                    Thread.Sleep(1);
+                }
+                if (remSend>0)
+                {
+                    fs.Read(buf, startIndex, remSend);
+                    uClient.Send(buf, blockSize, srvEP);
+                }
+                Console.WriteLine();
             }
+            uClient.Close();
+            Console.ReadLine();
         }
     }
 }
