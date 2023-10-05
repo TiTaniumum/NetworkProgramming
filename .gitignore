@@ -22,3 +22,7 @@
 /UdpServer/bin/Debug/net6.0
 /UdpServer/obj
 /UdpClient/file.txt
+/Net3/.vs
+/Net3/bin/Debug/net6.0
+/Net3/obj/Debug/net6.0
+/Net3/obj
