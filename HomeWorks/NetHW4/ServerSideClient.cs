@@ -60,7 +60,7 @@ namespace NetHW4
         {
             string[] splitedMessage = message.Split(':');
             string command = splitedMessage[0];
-            string actualMessage = string.Join("", splitedMessage, 1, splitedMessage.Length-2);
+            string actualMessage = string.Join(":", splitedMessage, 1, splitedMessage.Length-2);
             string receiver = splitedMessage[splitedMessage.Length-1];
             switch (command)
             {

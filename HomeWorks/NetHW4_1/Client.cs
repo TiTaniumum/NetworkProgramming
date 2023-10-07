@@ -69,7 +69,7 @@ namespace NetHW4_1
         {
             string[] separatedMessage = message.Split(':');
             string command = separatedMessage[0];
-            string actualMessage = separatedMessage[1];
+            string actualMessage = string.Join(":",separatedMessage,1,separatedMessage.Length-1);
             switch (command)
             {
                 case "MESSAGE":

@@ -42,6 +42,7 @@ namespace NetHW4_1
         }
         private void btnSend_Click(object sender, EventArgs e)
         {
+            string message;
             if (!client.IsConnected) return;
             if (txtMsg.Text == string.Empty && !radioButton1.Checked) return;
             if (radioButton1.Checked) client.GetClients();
@@ -49,6 +50,7 @@ namespace NetHW4_1
             if (radioButton3.Checked)
             {
                 if (lbClients.SelectedIndex == -1) return;
+                Log("ME-"+lbClients.Items[lbClients.SelectedIndex]+": " + txtMsg.Text);
                 client.Send("TO:"+txtMsg.Text+":"+lbClients.Items[lbClients.SelectedIndex]);
             }
         }
