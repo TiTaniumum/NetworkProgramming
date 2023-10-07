@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Deployment.Application;
 
 namespace NetHW4
 {
@@ -52,6 +53,7 @@ namespace NetHW4
                 {
                     Socket client = server.Accept();
                     clients.Add(new ServerSideClient(client));
+                    UpdateListView();
                 }
             }catch(Exception ex)
             {
@@ -91,6 +93,16 @@ namespace NetHW4
             if (names != string.Empty && names[names.Length-1]==':')
                 names = names.Substring(0, names.Length-1);
             return names;
+        }
+        public void DisconnectClient(ServerSideClient client)
+        {
+            Log(client.name+" has disconnected.");
+            clients.Remove(client);
+            UpdateListView();
+        }
+        public void UpdateListView()
+        {
+            Form.UpdateListView(clients);
         }
     }
 }

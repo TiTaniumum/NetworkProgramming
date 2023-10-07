@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace NetHW4
         private Server server = Server.getInstance();
         public string name;
         public bool IsConnected { get { return client.Connected; } }
+        public string RemoteEndPoint { get { return client.RemoteEndPoint.ToString(); } }
         public ServerSideClient(Socket client)
         {
             this.client = client;
@@ -27,15 +29,25 @@ namespace NetHW4
             string message = string.Empty;
 
             GetName(buffer);
+            server.UpdateListView();
 
             server.Log(client.RemoteEndPoint.ToString()+" sent his name: " +name);
 
             while (client.Connected)
             {
-                message = GetMessage(buffer);
-                server.Log(message);
-                HandleRequest(message);
+                try
+                {
+                    message = GetMessage(buffer);
+                    if (message.Length == 0) break;
+                    server.Log(message);
+                    HandleRequest(message);
+                }catch(Exception ex)
+                {
+                    server.Log(ex.Message);
+                }
             }
+            client.Close();
+            server.DisconnectClient(this);
         }
         private void GetName(byte[] buffer) => name = GetMessage(buffer);
 
@@ -48,8 +60,8 @@ namespace NetHW4
         {
             string[] splitedMessage = message.Split(':');
             string command = splitedMessage[0];
-            string actualMessage = splitedMessage[1];
-            string receiver = splitedMessage[2];
+            string actualMessage = string.Join("", splitedMessage, 1, splitedMessage.Length-2);
+            string receiver = splitedMessage[splitedMessage.Length-1];
             switch (command)
             {
                 case "ALL":

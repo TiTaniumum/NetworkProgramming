@@ -48,13 +48,13 @@ namespace NetHW4
             ThreadPool.SetMinThreads(10, 10);
             ThreadPool.SetMaxThreads(int.MaxValue, int.MaxValue);
         }
-        public void buttonStart_Click(object sender,EventArgs e)
+        public void buttonStart_Click(object sender, EventArgs e)
         {
-            IPAddress ip= IPAddress.Parse(comboBoxServerIP.SelectedItem.ToString());
+            IPAddress ip = IPAddress.Parse(comboBoxServerIP.SelectedItem.ToString());
             int port = int.Parse(textBoxPort.Text);
-            server.Start(ip,port);
+            server.Start(ip, port);
         }
-        public void buttonClose_Click(object sender,EventArgs e)
+        public void buttonClose_Click(object sender, EventArgs e)
         {
             server.Stop();
             Close();
@@ -65,6 +65,28 @@ namespace NetHW4
             {
                 textBoxLog.Text += message+"\r\n";
             });
+        }
+        public void UpdateListView(List<ServerSideClient> clients)
+        {
+            Invoke((Action)delegate
+            {
+                listViewClients.Items.Clear();
+                int id = 0;
+                foreach (ServerSideClient item in clients)
+                {
+                    ListViewItem i = listViewClients.Items.Add(id.ToString());
+                    i.SubItems.Add(item.name);
+                    i.SubItems.Add(item.RemoteEndPoint.ToString());
+                    id++;
+                }
+                listViewClients.Invalidate(true);
+                listViewClients.Update();
+            });
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            server.UpdateListView();
         }
     }
 }
