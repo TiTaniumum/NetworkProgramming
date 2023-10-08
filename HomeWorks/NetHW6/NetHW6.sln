@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetHW6", "NetHW6.csproj", "{8912C865-3600-4FFB-8186-E52A669B4844}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetHW6_1", "..\NetHW6_1\NetHW6_1.csproj", "{2491C8F8-300D-4504-A6CB-D73F70B02844}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8912C865-3600-4FFB-8186-E52A669B4844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8912C865-3600-4FFB-8186-E52A669B4844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8912C865-3600-4FFB-8186-E52A669B4844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8912C865-3600-4FFB-8186-E52A669B4844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2491C8F8-300D-4504-A6CB-D73F70B02844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2491C8F8-300D-4504-A6CB-D73F70B02844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2491C8F8-300D-4504-A6CB-D73F70B02844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2491C8F8-300D-4504-A6CB-D73F70B02844}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1FB6851-E6EF-44F9-9872-BAF6D18060D0}
+	EndGlobalSection
+EndGlobal
