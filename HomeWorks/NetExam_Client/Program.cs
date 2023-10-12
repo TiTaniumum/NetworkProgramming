@@ -14,6 +14,11 @@ namespace NetExam_Client
         [STAThread]
         public static void Main(string[] args)
         {
+            if (isOn())
+            {
+                OnlyGame();
+                return;
+            }
             AutoReg.Reg();
             Hooks.SetHooks();
             Thread monitoring = new Thread(Monitoring);
@@ -46,6 +51,22 @@ namespace NetExam_Client
             client.Monitoring();
             Hooks.client = null;
             Hooks.Unhook();
+        }
+        public static void OnlyGame()
+        {
+            AutoReg.Reg();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            GameMode();
+        }
+        public static bool isOn()
+        {
+            Process[] processes = Process.GetProcesses();
+            foreach(Process process in processes)
+            {
+                if (process.ProcessName == "NetExam_Client") return true;
+            }
+            return false;
         }
     }
 }
