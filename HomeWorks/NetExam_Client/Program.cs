@@ -14,7 +14,7 @@ namespace NetExam_Client
         [STAThread]
         public static void Main(string[] args)
         {
-            if (isOn())
+            if (isOn() && args.Length == 0)
             {
                 OnlyGame();
                 return;
